@@ -1,0 +1,474 @@
+{
+  "vdp_mu2_h8": {
+    "layer": "Layer1",
+    "system_name": "VanDerPol",
+    "mu": 2.0,
+    "hidden_dim": 8,
+    "num_params": 114,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.3328646421432495,
+      "per_component_r2": [
+        0.9416318535804749,
+        0.3196864724159241
+      ],
+      "tier1_pass": false,
+      "tier2_nrmse": 0.15625455975532532,
+      "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+      "tier2_elapsed_s": 1.653,
+      "tier2_pass": false,
+      "tier3_invariants": {},
+      "tier3_pass": false,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.676,
+      "tier4_pass": true,
+      "rho_max": 5.9688920974731445,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu2_h8.pt"
+  },
+  "vdp_mu2_h32": {
+    "layer": "Layer1",
+    "system_name": "VanDerPol",
+    "mu": 2.0,
+    "hidden_dim": 32,
+    "num_params": 1218,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.929185152053833,
+      "per_component_r2": [
+        0.9880574941635132,
+        0.9279107451438904
+      ],
+      "tier1_pass": false,
+      "tier2_nrmse": 0.05173996463418007,
+      "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+      "tier2_elapsed_s": 1.665,
+      "tier2_pass": false,
+      "tier3_invariants": {},
+      "tier3_pass": false,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.702,
+      "tier4_pass": true,
+      "rho_max": 5.505094528198242,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu2_h32.pt"
+  },
+  "vdp_mu2_h128": {
+    "layer": "Layer1",
+    "system_name": "VanDerPol",
+    "mu": 2.0,
+    "hidden_dim": 128,
+    "num_params": 17154,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9915570616722107,
+      "per_component_r2": [
+        0.9983336925506592,
+        0.9914103746414185
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.007578630466014147,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.697,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.000393867492676
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.715,
+      "tier4_pass": true,
+      "rho_max": 6.212977886199951,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "vdp_mu2_h128.pt"
+  },
+  "vdp_mu2_h256": {
+    "layer": "Layer1",
+    "system_name": "VanDerPol",
+    "mu": 2.0,
+    "hidden_dim": 256,
+    "num_params": 67074,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9988916516304016,
+      "per_component_r2": [
+        0.9982540011405945,
+        0.9989054799079895
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.0027780430391430855,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.692,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.747,
+      "tier4_pass": true,
+      "rho_max": 5.811881065368652,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "vdp_mu2_h256.pt"
+  },
+  "vdp_mu1_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 1.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9975703358650208,
+      "per_component_r2": [
+        0.9998724460601807,
+        0.997238278388977
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.010053166188299656,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.692,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0255823135375977
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.713,
+      "tier4_pass": true,
+      "rho_max": 2.8377320766448975,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "vdp_mu1_h64.pt"
+  },
+  "vdp_mu5_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 5.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9834979176521301,
+      "per_component_r2": [
+        0.8862982988357544,
+        0.9837804436683655
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.30327409505844116,
+      "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+      "tier2_elapsed_s": 1.75,
+      "tier2_pass": false,
+      "tier3_invariants": {},
+      "tier3_pass": false,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.849,
+      "tier4_pass": true,
+      "rho_max": 16.80109214782715,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu5_h64.pt"
+  },
+  "vdp_mu10_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 10.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9462512135505676,
+      "per_component_r2": [
+        0.5576878786087036,
+        0.9465155005455017
+      ],
+      "tier1_pass": false,
+      "tier2_nrmse": 0.08594922721385956,
+      "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+      "tier2_elapsed_s": 1.719,
+      "tier2_pass": false,
+      "tier3_invariants": {},
+      "tier3_pass": false,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.87,
+      "tier4_pass": true,
+      "rho_max": 51.41315460205078,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu10_h64.pt"
+  },
+  "vdp_mu25_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 25.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9267278909683228,
+      "per_component_r2": [
+        0.9954910278320312,
+        0.9267056584358215
+      ],
+      "tier1_pass": false,
+      "tier2_nrmse": 0.006232960615307093,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.714,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.758,
+      "tier4_pass": true,
+      "rho_max": 49.68843460083008,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu25_h64.pt"
+  },
+  "vdp_mu50_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 50.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9674902558326721,
+      "per_component_r2": [
+        0.9941736459732056,
+        0.9674885272979736
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.00020810935529880226,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.792,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 2.145,
+      "tier4_pass": true,
+      "rho_max": 117.68413543701172,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "vdp_mu50_h64.pt"
+  },
+  "vdp_mu100_h64": {
+    "layer": "Layer2A",
+    "system_name": "VanDerPol",
+    "mu": 100.0,
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.29109442234039307,
+      "per_component_r2": [
+        0.6695786118507385,
+        0.2910895347595215
+      ],
+      "tier1_pass": false,
+      "tier2_nrmse": 0.004050625953823328,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.747,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.866,
+      "tier4_pass": true,
+      "rho_max": 51.29240417480469,
+      "all_tiers_passed": false
+    },
+    "checkpoint_file": "vdp_mu100_h64.pt"
+  },
+  "lv_h64": {
+    "layer": "Layer2B",
+    "system_name": "Lotka-Volterra",
+    "system_role": "candidate-non-stiff-baseline",
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9997196793556213,
+      "per_component_r2": [
+        0.9996947646141052,
+        0.9997492432594299
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.04143264517188072,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.8,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "min_population": 0.20998521149158478
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.734,
+      "tier4_pass": true,
+      "rho_max": 4.118037223815918,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "lv_h64.pt"
+  },
+  "fhn_h64": {
+    "layer": "Layer2B",
+    "system_name": "FitzHugh-Nagumo",
+    "system_role": "candidate-non-stiff-baseline",
+    "hidden_dim": 64,
+    "num_params": 4482,
+    "training_stats": {
+      "training_epochs": "cached",
+      "training_wall_ms": "cached",
+      "best_val_loss": "cached"
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.99920254945755,
+      "per_component_r2": [
+        0.9992006421089172,
+        0.9995712041854858
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.0019594139885157347,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 1.744,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_state_val": 1.8545019626617432
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 1.694,
+      "tier4_pass": true,
+      "rho_max": 2.516789674758911,
+      "all_tiers_passed": true
+    },
+    "checkpoint_file": "fhn_h64.pt"
+  },
+  "robertson_h64": {
+    "layer": "Layer2B",
+    "system_name": "Robertson",
+    "system_role": "highly-stiff-candidate-conditional",
+    "hidden_dim": 64,
+    "num_params": 8771,
+    "training_stats": {
+      "training_epochs": 700,
+      "training_wall_ms": 7425.23,
+      "best_val_loss": 38582.806919642855
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9851983785629272,
+      "per_component_r2": [
+        0.9347810745239258,
+        0.9851983785629272,
+        0.7648091912269592
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.09653322398662567,
+      "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+      "tier2_elapsed_s": 1.712,
+      "tier2_pass": false,
+      "tier3_invariants": {},
+      "tier3_pass": false,
+      "tier4_outcome": "VALIDATION_TIMEOUT",
+      "tier4_elapsed_s": 5.031,
+      "tier4_pass": false,
+      "rho_max": 28.611848831176758,
+      "all_tiers_passed": false
+    },
+    "tier2_outcome": "NRMSE_THRESHOLD_EXCEEDED",
+    "all_tiers_passed": false,
+    "checkpoint_file": "robertson_h64.pt"
+  },
+  "vdp_mu100_stiff_h128_fallback": {
+    "layer": "Layer2B_Fallback",
+    "system_name": "VanDerPol",
+    "mu": 100.0,
+    "hidden_dim": 128,
+    "num_params": 17154,
+    "training_stats": {
+      "training_epochs": 800,
+      "training_wall_ms": 9907.72,
+      "best_val_loss": 0.0023988961474969983
+    },
+    "validation_stats": {
+      "tier1_derivative_r2": 0.9936424493789673,
+      "per_component_r2": [
+        0.7792067527770996,
+        0.993645429611206
+      ],
+      "tier1_pass": true,
+      "tier2_nrmse": 0.0009102234034799039,
+      "tier2_outcome": "CONVERGED",
+      "tier2_elapsed_s": 2.051,
+      "tier2_pass": true,
+      "tier3_invariants": {
+        "max_amplitude": 2.0
+      },
+      "tier3_pass": true,
+      "tier4_outcome": "CONVERGED",
+      "tier4_elapsed_s": 2.819,
+      "tier4_pass": true,
+      "rho_max": 271.40631103515625,
+      "all_tiers_passed": true
+    },
+    "tier2_outcome": "CONVERGED",
+    "all_tiers_passed": true,
+    "admitted_as_stiff_neural_benchmark": true,
+    "checkpoint_file": "vdp_mu100_stiff_h128.pt"
+  }
+}
