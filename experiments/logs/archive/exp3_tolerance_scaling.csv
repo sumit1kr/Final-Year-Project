@@ -1,0 +1,9 @@
+experiment_id,timestamp,ode_name,stiffness,solver,rtol,atol,step_size,net_preset,num_params,device,nfe,total_runtime_ms,tf_mean_ms,net_eval_ms,solver_overhead_ms,solver_overhead_ratio,peak_mem_mb,trajectory_mse,status,observation
+EXP3-TOL-LOTK-1e-3,2026-09-07 10:04:43,Lotka-Volterra,non-stiff,dopri5,0.001,1e-05,adaptive,small,354,cpu,20,5.135,0.04688,0.938,4.197,0.8174,0.0,N/A,SUCCESS,Tol sweep 1e-3 on Lotka-Volterra
+EXP3-TOL-LOTK-1e-5,2026-09-07 10:04:43,Lotka-Volterra,non-stiff,dopri5,1e-05,1e-07,adaptive,small,354,cpu,26,11.96,0.12506,3.252,8.708,0.7281,0.0,N/A,SUCCESS,Tol sweep 1e-5 on Lotka-Volterra
+EXP3-TOL-LOTK-1e-7,2026-09-07 10:04:43,Lotka-Volterra,non-stiff,dopri5,1e-07,1e-09,adaptive,small,354,cpu,32,11.876,0.11882,3.802,8.074,0.6798,0.0,N/A,SUCCESS,Tol sweep 1e-7 on Lotka-Volterra
+EXP3-TOL-LOTK-1e-9,2026-09-07 10:04:43,Lotka-Volterra,non-stiff,dopri5,1e-09,1e-11,adaptive,small,354,cpu,74,13.242,0.11927,8.826,4.417,0.3335,0.0,N/A,SUCCESS,Tol sweep 1e-9 on Lotka-Volterra
+EXP3-TOL-VAND-1e-3,2026-09-07 10:04:44,VanDerPol-10,moderate-stiff,dopri5,0.001,1e-05,adaptive,small,354,cpu,20,5.68,0.12178,2.436,3.245,0.5712,0.0,N/A,SUCCESS,Tol sweep 1e-3 on VanDerPol-10
+EXP3-TOL-VAND-1e-5,2026-09-07 10:04:44,VanDerPol-10,moderate-stiff,dopri5,1e-05,1e-07,adaptive,small,354,cpu,26,11.799,0.11851,3.081,8.717,0.7388,0.0,N/A,SUCCESS,Tol sweep 1e-5 on VanDerPol-10
+EXP3-TOL-VAND-1e-7,2026-09-07 10:04:44,VanDerPol-10,moderate-stiff,dopri5,1e-07,1e-09,adaptive,small,354,cpu,50,19.67,0.11889,5.945,13.725,0.6978,0.0,N/A,SUCCESS,Tol sweep 1e-7 on VanDerPol-10
+EXP3-TOL-VAND-1e-9,2026-09-07 10:04:44,VanDerPol-10,moderate-stiff,dopri5,1e-09,1e-11,adaptive,small,354,cpu,200,52.057,0.11936,23.872,28.185,0.5414,0.0,N/A,SUCCESS,Tol sweep 1e-9 on VanDerPol-10

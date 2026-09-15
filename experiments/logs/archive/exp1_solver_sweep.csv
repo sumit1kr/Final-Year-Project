@@ -1,0 +1,10 @@
+experiment_id,timestamp,ode_name,stiffness,solver,rtol,atol,step_size,net_preset,num_params,device,nfe,total_runtime_ms,tf_mean_ms,net_eval_ms,solver_overhead_ms,solver_overhead_ratio,peak_mem_mb,trajectory_mse,status,observation
+EXP1-LOTK-EULER,2026-09-07 09:54:38,Lotka-Volterra,non-stiff,euler,,,adaptive,small,354,cpu,49,11.064,0.12345,6.049,5.015,0.4533,0.0,N/A,SUCCESS,euler on Lotka-Volterra (non-stiff)
+EXP1-LOTK-RK4,2026-09-07 09:54:38,Lotka-Volterra,non-stiff,rk4,,,adaptive,small,354,cpu,196,25.385,0.0754,14.778,10.606,0.4178,0.0,N/A,SUCCESS,rk4 on Lotka-Volterra (non-stiff)
+EXP1-LOTK-DOPRI5,2026-09-07 09:54:38,Lotka-Volterra,non-stiff,dopri5,,,adaptive,small,354,cpu,26,12.9,0.08307,2.16,10.74,0.8326,0.0,N/A,SUCCESS,dopri5 on Lotka-Volterra (non-stiff)
+EXP1-FITZ-EULER,2026-09-07 09:54:38,FitzHugh-Nagumo,non-stiff,euler,,,adaptive,small,354,cpu,49,5.489,0.11595,5.682,0.0,0.0,0.0,N/A,SUCCESS,euler on FitzHugh-Nagumo (non-stiff)
+EXP1-FITZ-RK4,2026-09-07 09:54:39,FitzHugh-Nagumo,non-stiff,rk4,,,adaptive,small,354,cpu,196,33.632,0.11786,23.1,10.532,0.3132,0.0,N/A,SUCCESS,rk4 on FitzHugh-Nagumo (non-stiff)
+EXP1-FITZ-DOPRI5,2026-09-07 09:54:39,FitzHugh-Nagumo,non-stiff,dopri5,,,adaptive,small,354,cpu,26,14.344,0.11932,3.102,11.242,0.7837,0.0,N/A,SUCCESS,dopri5 on FitzHugh-Nagumo (non-stiff)
+EXP1-VAND-EULER,2026-09-07 09:54:39,VanDerPol-10,moderate-stiff,euler,,,adaptive,small,354,cpu,49,10.021,0.04524,2.217,7.804,0.7788,0.0,N/A,SUCCESS,euler on VanDerPol-10 (moderate-stiff)
+EXP1-VAND-RK4,2026-09-07 09:54:39,VanDerPol-10,moderate-stiff,rk4,,,adaptive,small,354,cpu,196,31.569,0.11561,22.66,8.909,0.2822,0.0,N/A,SUCCESS,rk4 on VanDerPol-10 (moderate-stiff)
+EXP1-VAND-DOPRI5,2026-09-07 09:54:39,VanDerPol-10,moderate-stiff,dopri5,,,adaptive,small,354,cpu,26,5.466,0.05497,1.429,4.036,0.7385,0.0,N/A,SUCCESS,dopri5 on VanDerPol-10 (moderate-stiff)

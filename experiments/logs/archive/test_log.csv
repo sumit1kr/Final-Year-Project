@@ -1,0 +1,2 @@
+experiment_id,timestamp,ode_name,stiffness,solver,rtol,atol,step_size,net_preset,num_params,device,nfe,total_runtime_ms,tf_mean_ms,net_eval_ms,solver_overhead_ms,solver_overhead_ratio,peak_mem_mb,trajectory_mse,status,observation
+TEST-001,2026-09-07 09:53:52,Lotka-Volterra,non-stiff,rk4,1e-05,1e-07,0.1,small,354,cpu,80,6.777,0.04857,3.885,2.892,0.4267,0.0,N/A,SUCCESS,Unit test verification log

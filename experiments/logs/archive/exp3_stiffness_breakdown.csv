@@ -1,0 +1,13 @@
+experiment_id,timestamp,ode_name,stiffness,solver,rtol,atol,step_size,net_preset,num_params,device,nfe,total_runtime_ms,tf_mean_ms,net_eval_ms,solver_overhead_ms,solver_overhead_ratio,peak_mem_mb,trajectory_mse,status,observation
+EXP3-STIFF-MU1-EXPLICIT,2026-09-07 10:05:00,VanDerPol,mu=1.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,926,3.95,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=1.0
+EXP3-STIFF-MU1-IMPLICIT,2026-09-07 10:05:00,VanDerPol,mu=1.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,2317,30.598,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=1.0
+EXP3-STIFF-MU5-EXPLICIT,2026-09-07 10:05:00,VanDerPol,mu=5.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,1406,5.07,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=5.0
+EXP3-STIFF-MU5-IMPLICIT,2026-09-07 10:05:00,VanDerPol,mu=5.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,2566,34.44,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=5.0
+EXP3-STIFF-MU10-EXPLICIT,2026-09-07 10:05:01,VanDerPol,mu=10.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,1574,5.664,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=10.0
+EXP3-STIFF-MU10-IMPLICIT,2026-09-07 10:05:01,VanDerPol,mu=10.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,2112,28.583,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=10.0
+EXP3-STIFF-MU25-EXPLICIT,2026-09-07 10:05:01,VanDerPol,mu=25.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,2102,7.497,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=25.0
+EXP3-STIFF-MU25-IMPLICIT,2026-09-07 10:05:01,VanDerPol,mu=25.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,462,6.266,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=25.0
+EXP3-STIFF-MU50-EXPLICIT,2026-09-07 10:05:01,VanDerPol,mu=50.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,5180,18.061,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=50.0
+EXP3-STIFF-MU50-IMPLICIT,2026-09-07 10:05:01,VanDerPol,mu=50.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,243,3.399,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=50.0
+EXP3-STIFF-MU100-EXPLICIT,2026-09-07 10:05:01,VanDerPol,mu=100.0,RK45/Dopri5 (Explicit),1e-05,1e-07,adaptive,,0,cpu,11498,40.039,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Explicit solver at mu=100.0
+EXP3-STIFF-MU100-IMPLICIT,2026-09-07 10:05:01,VanDerPol,mu=100.0,Radau (Implicit Stiff),1e-05,1e-07,adaptive,,0,cpu,191,2.768,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Implicit Radau solver at mu=100.0

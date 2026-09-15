@@ -1,0 +1,7 @@
+experiment_id,timestamp,ode_name,stiffness,solver,rtol,atol,step_size,net_preset,num_params,device,nfe,total_runtime_ms,tf_mean_ms,net_eval_ms,solver_overhead_ms,solver_overhead_ratio,peak_mem_mb,trajectory_mse,status,observation
+EXP3-BATCH-B1,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,13.458,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 1: 74.3 traj/sec
+EXP3-BATCH-B4,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,11.079,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 4: 361.1 traj/sec
+EXP3-BATCH-B16,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,12.993,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 16: 1231.5 traj/sec
+EXP3-BATCH-B64,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,9.639,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 64: 6639.9 traj/sec
+EXP3-BATCH-B128,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,8.615,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 128: 14858.0 traj/sec
+EXP3-BATCH-B256,2026-09-07 10:05:13,Synthetic-Batch,batch-scaling,dopri5,1e-05,1e-07,adaptive,medium,2274,cpu,26,13.928,0.0,0.0,0.0,0.0,0.0,N/A,SUCCESS,Batch size 256: 18380.4 traj/sec
