@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "description": "Phase 1 Diagnostic Spectral Characterization",
+    "diagnostic_traceability_wall_clock_seconds": 0.0375,
+    "timing_purpose": "diagnostic traceability, not benchmark timing",
+    "complex_imaginary_threshold": 1e-07,
+    "device": "CPU"
+  },
+  "results": {
+    "Lotka-Volterra": {
+      "system_name": "Lotka-Volterra",
+      "trajectory_file": "lotka-volterra_ground_truth.pt",
+      "trajectory_points": 150,
+      "t_span": [
+        0.0,
+        15.0
+      ],
+      "state_dimension": 2,
+      "spectral_diagnostics": {
+        "real_envelope": [
+          -2.287496507167816,
+          2.5718511044979095
+        ],
+        "strongest_negative_real_mode": -2.287496507167816,
+        "max_positive_real_mode": 2.5718511044979095,
+        "mean_real_mode": 0.021150983472665138,
+        "imag_envelope": [
+          -4.09585824887153,
+          4.09585824887153
+        ],
+        "max_abs_imag": 4.09585824887153,
+        "mean_abs_imag": 1.0538097008361371,
+        "fraction_complex_points": 0.5666666666666667,
+        "spectral_radius_range": [
+          0.6632379963711403,
+          4.136061316273623
+        ],
+        "mean_spectral_radius": 2.1210303116294784,
+        "fastest_spectral_timescale_tau": 0.24177591276643554
+      }
+    },
+    "FitzHugh-Nagumo": {
+      "system_name": "FitzHugh-Nagumo",
+      "trajectory_file": "fitzhugh-nagumo_ground_truth.pt",
+      "trajectory_points": 200,
+      "t_span": [
+        0.0,
+        50.0
+      ],
+      "state_dimension": 2,
+      "spectral_diagnostics": {
+        "real_envelope": [
+          -2.8521357131075007,
+          0.9161848323837813
+        ],
+        "strongest_negative_real_mode": -2.8521357131075007,
+        "max_positive_real_mode": 0.9161848323837813,
+        "mean_real_mode": -0.5656196135126439,
+        "imag_envelope": [
+          -0.2828251062727648,
+          0.2828251062727648
+        ],
+        "max_abs_imag": 0.2828251062727648,
+        "mean_abs_imag": 0.053717121027826595,
+        "fraction_complex_points": 0.235,
+        "spectral_radius_range": [
+          0.22232913772272703,
+          2.8521357131075007
+        ],
+        "mean_spectral_radius": 1.2219498222769583,
+        "fastest_spectral_timescale_tau": 0.3506144519716649
+      }
+    }
+  }
+}
