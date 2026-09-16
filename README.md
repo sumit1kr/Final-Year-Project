@@ -4,7 +4,7 @@
 **Department:** Department of Computer Science and Engineering  
 **Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
 **Guide:** Dr. Noor Mahammad Shaik  
-**Candidate:** CS26D0002  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
 **Date:** September 2026  
 
 ---

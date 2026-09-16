@@ -1,6 +1,11 @@
 # Benchmark Portfolio & Canonical Baseline Architecture Specification
 
-**Project Track:** Track 2 — Computational Performance Characterization of Neural ODEs  
+**Academic Context:** Final Year Project (FYP) — Track 2: Computational Characterization  
+**Department:** Department of Computer Science and Engineering  
+**Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
+**Guide:** Dr. Noor Mahammad Shaik  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
+**Date:** September 2026  
 **Document Purpose:** Final Freeze Specification for Experimental Foundation  
 **Status:** Frozen Specification (No code implemented, no experiments executed)  
 **File Location:** `docs/benchmark_system_spec.md`

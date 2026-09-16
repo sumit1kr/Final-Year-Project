@@ -1,7 +1,11 @@
 # Master Evidence & Proof-of-Work Index
 
-**Project Track:** Track 2 — Computational Performance Characterization of Neural ODEs  
-**Institution:** Department of Computer Science and Engineering, IIITDM Kancheepuram  
+**Academic Context:** Final Year Project (FYP) — Track 2: Computational Characterization  
+**Department:** Department of Computer Science and Engineering  
+**Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
+**Guide:** Dr. Noor Mahammad Shaik  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
+**Date:** September 2026  
 **Document Purpose:** Permanent, forensic index of verified research artifacts, execution logs, measured results, and literature groundings.  
 **Auditing Rule:** A prompt, plan, or specification proves only that a design was made; an execution log proves execution occurred; a CSV/JSON file proves recorded measurements; a published paper proves literature claims. Agent claims without corresponding project artifacts are classified as `[AGENT CLAIM ONLY]` or `[NOT VERIFIED]`.
 

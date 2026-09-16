@@ -66,14 +66,14 @@ The repository contains extensive, completed Phase 2 experimental artifacts that
 The repository evidence establishes the following scientific considerations regarding the architecture:
 
 1. **Mathematical Nature of Benchmark ODEs:**
-   * In [`benchmarks/systems.py`](file:///C:/Users/CS26D0002/Documents/FYP-computational/benchmarks/systems.py), all four benchmark dynamical systems are mathematically autonomous ODEs:
+   * In [`benchmarks/systems.py`](../benchmarks/systems.py), all four benchmark dynamical systems are mathematically autonomous ODEs:
      * Lotka-Volterra (lines 40–44): $\frac{dy_1}{dt} = \alpha y_1 - \beta y_1 y_2$, $\frac{dy_2}{dt} = \delta y_1 y_2 - \gamma y_2$.
      * FitzHugh-Nagumo (lines 73–77): $\frac{dv}{dt} = v - \frac{v^3}{3} - w + I$, $\frac{dw}{dt} = \frac{1}{\tau}(v + a - bw)$.
      * Van der Pol (lines 107–111): $\frac{dy_1}{dt} = y_2$, $\frac{dy_2}{dt} = \mu(1 - y_1^2)y_2 - y_1$.
      * Robertson (lines 143–148): $\frac{dy_1}{dt} = -k_1 y_1 + k_3 y_2 y_3$, etc.
    * None of these systems contain explicit time dependence ($\frac{\partial f}{\partial t} = 0$). An autonomous neural vector field $f_\theta(z)$ is therefore mathematically exact and natural for these systems.
 2. **Alignment with Research Question and Hypothesis:**
-   * The project's central research hypothesis ([`docs/problem_statement.tex#L60-L64`](file:///C:/Users/CS26D0002/Documents/FYP-computational/docs/problem_statement.tex#L60-L64)) investigates whether NFE corresponds to wall-clock computational cost across solver characteristics, stiffness, tolerances, and model complexity.
+   * The project's central research hypothesis ([`docs/problem_statement.tex#L60-L64`](problem_statement.tex#L60-L64)) investigates whether NFE corresponds to wall-clock computational cost across solver characteristics, stiffness, tolerances, and model complexity.
    * The research question evaluates the relationship between NFE and runtime; it does not mandate time conditioning, nor is non-autonomous parameterization a variable under test.
 3. **Implications of Enforcing Time-Conditioning + GELU:**
    * Enforcing $[z; t] + \text{GELU}$ would require inventing synthetic time distributions during training on autonomous systems, retraining all baseline models from scratch, and executing a complete re-validation cycle.
@@ -126,17 +126,17 @@ To maintain complete scientific and forensic integrity:
 ## 9. Required Follow-up Changes
 
 The following documentation files must be updated in a subsequent step to reflect this decision:
-1. [`docs/benchmark_system_spec.md`](file:///C:/Users/CS26D0002/Documents/FYP-computational/docs/benchmark_system_spec.md):
+1. [`docs/benchmark_system_spec.md`](benchmark_system_spec.md):
    * Update Section D (architecture diagram and text) to autonomous $z \in \mathbb{R}^D$ and Softplus activation.
    * Update Section E (parameter arithmetic) to $\text{Params}(D) = 129D + 4,224$ ($D=2 \to 4,482$; $D=3 \to 4,611$).
    * Update Section H (summary table rows 243–244).
-2. [`docs/stage1_experiment_protocol.md`](file:///C:/Users/CS26D0002/Documents/FYP-computational/docs/stage1_experiment_protocol.md):
+2. [`docs/stage1_experiment_protocol.md`](stage1_experiment_protocol.md):
    * Update Section 4 (architecture diagram, text, and parameter counts).
    * Update Section 5.3 (Table row 152).
    * Update Section 9.3 (JSON schema example).
-3. [`docs/phases/phase_4_benchmark_freeze.md`](file:///C:/Users/CS26D0002/Documents/FYP-computational/docs/phases/phase_4_benchmark_freeze.md):
+3. [`docs/phases/phase_4_benchmark_freeze.md`](phases/phase_4_benchmark_freeze.md):
    * Update Section 3 (architecture description and parameter arithmetic).
-4. [`README.md`](file:///C:/Users/CS26D0002/Documents/FYP-computational/README.md):
+4. [`README.md`](../README.md):
    * Update Section 8 (canonical baseline topology and parameter counts).
 
 *(No files outside documentation will be modified).*
