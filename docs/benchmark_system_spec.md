@@ -117,58 +117,54 @@ The benchmark portfolio consists of four dynamical systems spanning controlled d
 
 ## D. Canonical Baseline Architecture
 
-The Canonical Baseline Neural Network architecture is frozen to serve as the invariant reference across all benchmark systems:
+The Canonical Baseline Neural Network architecture is frozen to serve as the invariant reference across all benchmark systems (formally aligned with the verified Phase-2 implementation per `docs/architecture_decision_record.md`):
 
 ```
-State Vector z(t) ∈ R^D        Time t ∈ R
-          │                         │
-          └────────────┬────────────┘
-                       ▼
-             Concatenation [z; t] ∈ R^(D+1)
-                       │
-                       ▼
-             Linear(D+1 ──► 64)
-                       │
-                       ▼
-                     GELU
-                       │
-                       ▼
-             Linear(64 ──► 64)
-                       │
-                       ▼
-                     GELU
-                       │
-                       ▼
-             Linear(64 ──► D)
-                       │
-                       ▼
-             Output dz/dt ∈ R^D
+State Vector z(t) ∈ R^D
+           │
+           ▼
+   Linear(D ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► D)
+           │
+           ▼
+   Output dz/dt ∈ R^D
 ```
 
 ### Architecture Specifications
-1. **Network Type:** Multilayer Perceptron (MLP) vector field $f_\theta(z(t), t)$.
-2. **Input Representation:** Time-conditioning: direct concatenation $[z(t); t] \in \mathbb{R}^{D+1}$ ($D_{\text{in}} = 3$ for $D=2$; $D_{\text{in}} = 4$ for $D=3$).
+1. **Network Type:** Autonomous Multilayer Perceptron (MLP) vector field $f_\theta(z)$.
+2. **Input Representation:** Direct state vector $z(t) \in \mathbb{R}^D$ ($D_{\text{in}} = 2$ for $D=2$; $D_{\text{in}} = 3$ for $D=3$). Augmentation dimension is zero (`augment_dim = 0`). The forward pass computes $f_\theta(z)$ without explicit time conditioning.
 3. **Hidden Depth:** Exactly 2 hidden layers (3 linear transformations total).
 4. **Hidden Width:** Exactly 64 units per hidden layer.
-5. **Activation Function:** **GELU** (Gaussian Error Linear Unit) applied after Layer 1 and Layer 2.
-   * *Rationale:* $C^1$-smooth continuity avoids gradient and derivative discontinuities that impair Newton convergence in implicit solvers (Kim et al., 2021; Caldana & Hesthaven, 2025) `[VERIFIED SOURCE]`.
-   * *Constraint:* GELU CPU execution speed relative to other activations is `[NOT YET MEASURED]`.
+5. **Activation Function:** **Softplus** (`nn.Softplus`, $\beta=1$) applied after Layer 1 and Layer 2.
+   * *Rationale:* Smooth $C^\infty$ continuity provides continuously differentiable dynamics; directly matches the verified Phase 2 training and surrogate validation implementation as documented in `docs/architecture_decision_record.md`.
+   * *Constraint:* Softplus CPU execution speed relative to other activations is `[NOT YET MEASURED]`.
 6. **Output Layer:** Linear transformation $\mathbb{R}^{64} \to \mathbb{R}^D$ representing $\frac{dz}{dt}$. No activation function on the final layer.
-7. **Status:** **`[OUR PROPOSED CANONICAL BASELINE]`**. It synthesizes structural ranges from Top-5 literature (Kim et al., 2021; Finlay et al., 2020; Caldana & Hesthaven, 2025; Dupont et al., 2019) into a standardized reference model; it is not claimed to come identically from any single paper.
+7. **Status:** **`[OUR CANONICAL BASELINE]`**. Aligned with the verified Phase 2 implementation per `docs/architecture_decision_record.md`. Synthesizes structural ranges from literature (Kim et al., 2021; Finlay et al., 2020; Caldana & Hesthaven, 2025; Dupont et al., 2019) into a standardized reference model for experimental control; it is not claimed to come identically from any single paper.
 
 ---
 
 ## E. Parameter-Count Calculation
 
-The parameter count is derived via verified mathematical arithmetic. For an MLP with input dimension $D_{\text{in}} = D + 1$, hidden width $W = 64$, depth $L = 2$ hidden layers, and output dimension $D_{\text{out}} = D$:
+The parameter count is derived via verified mathematical arithmetic for an autonomous MLP with input dimension $D_{\text{in}} = D$, hidden width $W = 64$, depth $L = 2$ hidden layers, output dimension $D_{\text{out}} = D$, and `augment_dim = 0`:
 
-$$\text{Params}(D) = \underbrace{[(D+1) \times 64 + 64]}_{\text{Layer 1}} + \underbrace{[64 \times 64 + 64]}_{\text{Layer 2}} + \underbrace{[64 \times D + D]}_{\text{Layer 3}} = 129 D + 4,288$$
+$$\text{Params}(D) = \underbrace{[D \times 64 + 64]}_{\text{Layer 1}} + \underbrace{[64 \times 64 + 64]}_{\text{Layer 2}} + \underbrace{[64 \times D + D]}_{\text{Layer 3}} = 129 D + 4,224$$
 
 ### 1. Two-Dimensional Systems ($D = 2$: Lotka-Volterra, FitzHugh-Nagumo, Van der Pol)
-* **Layer 1** ($\text{Linear}(3 \to 64)$):
-  * Weights: $3 \times 64 = 192$
+* **Layer 1** ($\text{Linear}(2 \to 64)$):
+  * Weights: $2 \times 64 = 128$
   * Biases: $64$
-  * Subtotal: **256**
+  * Subtotal: **192**
 * **Layer 2** ($\text{Linear}(64 \to 64)$):
   * Weights: $64 \times 64 = 4,096$
   * Biases: $64$
@@ -177,13 +173,13 @@ $$\text{Params}(D) = \underbrace{[(D+1) \times 64 + 64]}_{\text{Layer 1}} + \und
   * Weights: $64 \times 2 = 128$
   * Biases: $2$
   * Subtotal: **130**
-* **Total Baseline Parameters ($D=2$):** $256 + 4,160 + 130 = \mathbf{4,546\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC]`.
+* **Total Baseline Parameters ($D=2$):** $192 + 4,160 + 130 = \mathbf{4,482\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC & PHASE-2 IMPLEMENTATION]`.
 
-### 2. Three-Dimensional System ($D = 3$: Robertson)
-* **Layer 1** ($\text{Linear}(4 \to 64)$):
-  * Weights: $4 \times 64 = 256$
+### 2. Three-Dimensional System ($D = 3$: Robertson Baseline Reference)
+* **Layer 1** ($\text{Linear}(3 \to 64)$):
+  * Weights: $3 \times 64 = 192$
   * Biases: $64$
-  * Subtotal: **320**
+  * Subtotal: **256**
 * **Layer 2** ($\text{Linear}(64 \to 64)$):
   * Weights: $64 \times 64 = 4,096$
   * Biases: $64$
@@ -192,7 +188,9 @@ $$\text{Params}(D) = \underbrace{[(D+1) \times 64 + 64]}_{\text{Layer 1}} + \und
   * Weights: $64 \times 3 = 192$
   * Biases: $3$
   * Subtotal: **195**
-* **Total Baseline Parameters ($D=3$):** $320 + 4,160 + 195 = \mathbf{4,675\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC]`.
+* **Total Baseline Parameters ($D=3$):** $256 + 4,160 + 195 = \mathbf{4,611\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC & IMPLEMENTATION]`.
+
+*(Historical Provenance Note: An earlier draft specified a non-autonomous $[z; t] \in \mathbb{R}^{D+1}$ model with GELU yielding 4,546 parameters for $D=2$ and 4,675 for $D=3$. As established in `docs/architecture_decision_record.md`, the actual Phase 2 checkpoints were trained and validated as autonomous Softplus models; the specification has been formally aligned to match).*
 
 ---
 
@@ -240,9 +238,9 @@ Hardware execution boundaries are strictly enforced per mentor decision:
 | **Van der Pol Spectral Diagnostics** | Analytical Jacobian eigenvalues along trajectory | **[NOT YET MEASURED]** |
 | **Robertson Formulation** | 3D chemical kinetics ($k_1=0.04, k_2=3\times 10^7, k_3=10^4$) | **[VERIFIED SOURCE: Kim et al., 2021; Hairer & Wanner, 1996]** |
 | **Robertson Eigenvalue Envelope** | Numerical eigenvalues along trajectory ($\lambda \approx -10^7$) | **[INSUFFICIENT VERIFIED INFORMATION — CANNOT CONCLUDE]** |
-| **Baseline Architecture Topology** | MLP, 2 hidden layers, width 64, GELU, $[z; t]$ input | **[OUR PROPOSED CANONICAL BASELINE]** |
-| **Baseline Parameter Arithmetic** | $D=2 \to 4,546\text{ params}$; $D=3 \to 4,675\text{ params}$ | **[VERIFIED MATHEMATICAL ARITHMETIC]** |
-| **GELU CPU Throughput** | Execution latency of GELU relative to other activations | **[NOT YET MEASURED]** |
+| **Baseline Architecture Topology** | Autonomous MLP, 2 hidden layers, width 64, Softplus, $z$ input, `augment_dim=0` | **[OUR CANONICAL BASELINE — PHASE-2 ALIGNED (ADR)]** |
+| **Baseline Parameter Arithmetic** | $D=2 \to 4,482\text{ params}$; $D=3 \to 4,611\text{ params}$ | **[VERIFIED MATHEMATICAL ARITHMETIC & IMPLEMENTATION]** |
+| **Softplus CPU Throughput** | Execution latency of Softplus relative to other activations | **[NOT YET MEASURED]** |
 | **Host Machine Hardware Profile** | CPU model, cache hierarchy, OS build, BLAS backend | **[NOT YET MEASURED]** |
 | **Hypothesis Testing on Baseline** | NFE vs. runtime characterization on frozen Neural ODE | **[NOT YET MEASURED]** |
 
@@ -254,8 +252,8 @@ To prevent premature conclusions or scientific misrepresentation, this specifica
 
 1. **No Claim of Proven Hypothesis:** This document does not claim that NFE has been proven insufficient for Neural ODEs. The hypothesis remains an open research proposition awaiting controlled empirical testing.
 2. **No Claim of Neural ODE Stiffness Cliff:** Prior project observations of explicit solver collapse and implicit speedup on Van der Pol ($\mu=100$) were obtained via classical SciPy `solve_ivp` on analytical equations. They do **NOT** constitute proof of Neural ODE behavior.
-3. **No Claim of Literature-Standard Architecture:** The canonical baseline ($W=64, L=2$, GELU) is our synthesized design for experimental control; it is not claimed to be an established standard taken from a single paper.
-4. **No Claim of Activation Superiority:** GELU is chosen for its continuous derivative properties; it is not claimed to be faster on CPU than alternative activations.
+3. **No Claim of Literature-Standard Architecture:** The canonical baseline ($W=64, L=2$, Softplus) is our synthesized design for experimental control; it is not claimed to be an established standard taken from a single paper.
+4. **No Claim of Activation Superiority:** Softplus is chosen for its continuous derivative properties and direct alignment with validated Phase 2 checkpoints; it is not claimed to be faster on CPU than alternative activations.
 5. **No Claim of Classical Stiffness for FHN:** FitzHugh-Nagumo is recognized as a mildly multiscale / candidate non-stiff system, not a classically stiff system.
 6. **No Claim of Robertson Trajectory Eigenvalues:** Specific numerical eigenvalue figures ($\lambda \approx -10^7$) and "$> 10^9$" stiffness ratios are unverified in project logs and are not treated as factual measurements.
 7. **No Claim of Absolute Determinism:** Single-thread CPU execution reduces scheduling contention but does not guarantee absolute timing determinism.

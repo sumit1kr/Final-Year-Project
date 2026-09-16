@@ -26,43 +26,45 @@ This ensures all subsequent Stage 1 experiments isolate numerical and model vari
 
 ---
 
-## 3. Canonical Baseline Architecture (`[OUR PROPOSED CANONICAL BASELINE]`)
+## 3. Canonical Baseline Architecture (`[OUR CANONICAL BASELINE — PHASE-2 ALIGNED]`)
+
+The canonical baseline architecture is formally aligned with the verified Phase-2 implementation per `docs/architecture_decision_record.md`:
 
 ```
-State z(t) ∈ R^D,  Time t ∈ R
-            │
-            ▼
-Concatenation [z(t); t] ∈ R^(D+1)
-            │
-            ▼
-    Linear(D+1 ──► 64)
-            │
-            ▼
-          GELU
-            │
-            ▼
-     Linear(64 ──► 64)
-            │
-            ▼
-          GELU
-            │
-            ▼
-      Linear(64 ──► D)
-            │
-            ▼
-     Output dz/dt ∈ R^D
+State Vector z(t) ∈ R^D
+           │
+           ▼
+   Linear(D ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► D)
+           │
+           ▼
+   Output dz/dt ∈ R^D
 ```
 
-* **Network:** Time-conditioned MLP vector field $f_\theta(z(t), t)$.
-* **Depth:** Exactly 2 hidden layers (3 linear transformations).
+* **Network:** Autonomous Multilayer Perceptron (MLP) vector field $f_\theta(z)$.
+* **Input Representation:** Direct state vector $z(t) \in \mathbb{R}^D$ ($D_{\text{in}} = 2$ for $D=2$; $D_{\text{in}} = 3$ for $D=3$). Augmentation dimension is zero (`augment_dim = 0`). The forward pass computes $f_\theta(z)$ without explicit time conditioning.
+* **Depth:** Exactly 2 hidden layers (3 linear transformations total).
 * **Width:** Exactly 64 hidden units per layer.
-* **Activation:** GELU (smooth $C^1$ continuity prevents gradient discontinuities during Newton solves).
+* **Activation:** **Softplus** (`nn.Softplus`, $\beta=1$), providing continuously differentiable $C^\infty$ dynamics matching trained Phase 2 checkpoints.
 * **Readout:** Direct linear projection to $\mathbb{R}^D$ (no output activation).
 
 ### Verified Parameter Arithmetic
-$$\text{Params}(D) = [(D+1) \times 64 + 64] + [64 \times 64 + 64] + [64 \times D + D] = 129 D + 4,288$$
-* **$D=2$ (LV, FHN, VdP):** $129(2) + 4,288 = \mathbf{4,546\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC]`.
-* **$D=3$ (Robertson):** $129(3) + 4,288 = \mathbf{4,675\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC]`.
+$$\text{Params}(D) = [D \times 64 + 64] + [64 \times 64 + 64] + [64 \times D + D] = 129 D + 4,224$$
+* **$D=2$ (LV, FHN, VdP):** $129(2) + 4,224 = \mathbf{4,482\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC & PHASE-2 IMPLEMENTATION]`.
+* **$D=3$ (Robertson Baseline Reference):** $129(3) + 4,224 = \mathbf{4,611\text{ parameters}}$ `[VERIFIED MATHEMATICAL ARITHMETIC & IMPLEMENTATION]`.
+
+*(Historical Provenance Note: An earlier draft documented a theoretical $[z; t] \in \mathbb{R}^{D+1}$ model with GELU yielding 4,546 parameters for $D=2$. Pre-flight audit revealed the actual Phase 2 checkpoints were trained and validated as autonomous Softplus models; the specification has been formally aligned to match per `docs/architecture_decision_record.md`).*
 
 ---
 

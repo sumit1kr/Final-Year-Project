@@ -87,38 +87,37 @@ The project evaluates four canonical benchmark systems spanning non-stiff to ext
 
 ## 8. Canonical Neural ODE Baseline
 
-To eliminate architectural confounding factors across benchmark comparisons, all baseline evaluations use a standardized reference model:
+To eliminate architectural confounding factors across benchmark comparisons, all baseline evaluations use a standardized reference model (formally aligned with the verified Phase-2 implementation per `docs/architecture_decision_record.md`):
 
 ```
-State z(t) ∈ R^D,  Time t ∈ R
-            │
-            ▼
-Concatenation [z(t); t] ∈ R^(D+1)
-            │
-            ▼
-    Linear(D+1 ──► 64)
-            │
-            ▼
-          GELU
-            │
-            ▼
-     Linear(64 ──► 64)
-            │
-            ▼
-          GELU
-            │
-            ▼
-      Linear(64 ──► D)
-            │
-            ▼
-     Output dz/dt ∈ R^D
+State Vector z(t) ∈ R^D
+           │
+           ▼
+   Linear(D ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► 64)
+           │
+           ▼
+        Softplus
+           │
+           ▼
+   Linear(64 ──► D)
+           │
+           ▼
+   Output dz/dt ∈ R^D
 ```
 
-* **Status:** **`[OUR PROPOSED CANONICAL BASELINE]`** (synthesizes structural parameters from Top-5 literature; not claimed to be a literature standard).
-* **Topology:** 2 hidden layers, width 64, GELU activations, direct $[z(t); t]$ time-conditioning, linear readout.
+* **Status:** **`[OUR CANONICAL BASELINE — PHASE-2 ALIGNED]`** (synthesizes structural parameters for experimental control, aligned with verified Phase 2 implementation per `docs/architecture_decision_record.md`).
+* **Topology:** Autonomous MLP, 2 hidden layers, width 64, Softplus activations, direct state input $z(t) \in \mathbb{R}^D$ (`augment_dim=0`), linear readout.
 * **Verified Parameter Counts:**
-  * $D=2$ (LV, FHN, VdP): **4,546 parameters** `[VERIFIED MATHEMATICAL ARITHMETIC]`.
-  * $D=3$ (ROBER): **4,675 parameters** `[VERIFIED MATHEMATICAL ARITHMETIC]`.
+  * $D=2$ (LV, FHN, VdP): **4,482 parameters** `[VERIFIED MATHEMATICAL ARITHMETIC & PHASE-2 IMPLEMENTATION]`.
+  * $D=3$ (ROBER baseline architecture): **4,611 parameters** `[VERIFIED MATHEMATICAL ARITHMETIC & IMPLEMENTATION]`.
+
+*(Historical Provenance Note: An earlier draft documented a theoretical $[z; t] \in \mathbb{R}^{D+1}$ model with GELU yielding 4,546 parameters for $D=2$. Pre-flight audit revealed the actual Phase 2 checkpoints were trained and validated as autonomous Softplus models; the specification has been formally aligned to match per `docs/architecture_decision_record.md`).*
 
 ---
 
