@@ -1,7 +1,7 @@
 # Research Validation Report: Computational Performance Characterization of Neural Ordinary Differential Equations
 
 **Track 2: Computational Realization**  
-**Author:** CS26D0002  
+**Author:** Sumit Kumar (Roll No.: CS23B2008)  
 **Department of Computer Science and Engineering**  
 **Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram**  
 **Guide:** Dr. Noor Mahammad Shaik  

@@ -1,14 +1,18 @@
 # Stage 1 Experiment 1: Baseline NFE-vs-Runtime Characterization Analysis
 
-**Research Track:** Track 2 — Computational Performance Characterization of Neural ODEs
-**Experiment Identifier:** `STAGE_1_EXP1` (Baseline Characterization)
-**Parent Protocol:** `docs/stage1_experiment_protocol.md`
-**Architecture Decision Record:** `docs/architecture_decision_record.md`
-**Execution Commit:** `09e9c1a` (`experiments/stage1_exp1_runner.py`)
-**Evidence Artifacts:**
-- `experiments/logs/stage1_exp1_results.json` (SHA-256: `0c4c7ee0c095ba117984121b8f5ea48fa1937067ce63ba68c352f87f3b12288c`)
-- `experiments/logs/stage1_exp1_results.csv` (SHA-256: `ac1dab806af15f89ba9106390b3be2dc4bac0d3595679503ca7b0b7ddf9241bd`)
-**Forensic Audit Verdict:** `PASS` (Full parity verified across 26/26 records, 390 recorded solves)
+**Academic Context:** Final Year Project (FYP) — Track 2: Computational Characterization  
+**Department:** Department of Computer Science and Engineering  
+**Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
+**Guide:** Dr. Noor Mahammad Shaik  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
+**Experiment Identifier:** `STAGE_1_EXP1` (Baseline Characterization)  
+**Parent Protocol:** `docs/stage1_experiment_protocol.md`  
+**Architecture Decision Record:** `docs/architecture_decision_record.md`  
+**Execution Commit:** `09e9c1a` (`experiments/stage1_exp1_runner.py`)  
+**Evidence Artifacts:**  
+- `experiments/logs/stage1_exp1_results.json` (SHA-256: `0c4c7ee0c095ba117984121b8f5ea48fa1937067ce63ba68c352f87f3b12288c`)  
+- `experiments/logs/stage1_exp1_results.csv` (SHA-256: `ac1dab806af15f89ba9106390b3be2dc4bac0d3595679503ca7b0b7ddf9241bd`)  
+**Forensic Audit Verdict:** `PASS` (Full parity verified across 26/26 records, 390 recorded solves)  
 
 ---
 

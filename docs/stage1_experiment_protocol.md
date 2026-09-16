@@ -1,6 +1,10 @@
 # Stage 1: Controlled Experiment Protocol Design
 
-**Project Track:** Track 2 — Computational Performance Characterization of Neural ODEs  
+**Academic Context:** Final Year Project (FYP) — Track 2: Computational Characterization  
+**Department:** Department of Computer Science and Engineering  
+**Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
+**Guide:** Dr. Noor Mahammad Shaik  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
 **Document Purpose:** Formal Experimental Protocol Specification for Stage 1 Controlled Experiments  
 **Status:** Audited Protocol Design Specification (Pre-Execution — Zero experiments executed, zero models trained)  
 **File Location:** `docs/stage1_experiment_protocol.md`  

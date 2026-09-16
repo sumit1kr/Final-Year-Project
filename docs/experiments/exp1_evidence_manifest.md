@@ -1,12 +1,17 @@
 # Stage 1 Experiment 1: Evidence Manifest & Integrity Audit
 
-**Experiment Identifier:** `STAGE_1_EXP1`
-**Execution Commit Hash:** `09e9c1a` (`09e9c1a8e8f52cbb35225373cc360f192962f2b0`)
-**Execution Timestamp:** 2026-09-16T08:05:49Z to 2026-09-16T08:07:12Z (UTC)
-**Parent Protocol Reference:** `docs/stage1_experiment_protocol.md`
-**Architecture Decision Record Reference:** `docs/architecture_decision_record.md`
-**Analysis Reference:** `docs/experiments/phase1_exp1_analysis.md`
-**Forensic Audit Verdict:** `PASS` (Full parity verified across 26/26 points, 390 recorded solves)
+**Academic Context:** Final Year Project (FYP) — Track 2: Computational Characterization  
+**Department:** Department of Computer Science and Engineering  
+**Institution:** Indian Institute of Information Technology, Design and Manufacturing (IIITDM), Kancheepuram  
+**Guide:** Dr. Noor Mahammad Shaik  
+**Candidate:** Sumit Kumar (Roll No.: CS23B2008)  
+**Experiment Identifier:** `STAGE_1_EXP1`  
+**Execution Commit Hash:** `09e9c1a` (`09e9c1a8e8f52cbb35225373cc360f192962f2b0`)  
+**Execution Timestamp:** 2026-09-16T08:05:49Z to 2026-09-16T08:07:12Z (UTC)  
+**Parent Protocol Reference:** `docs/stage1_experiment_protocol.md`  
+**Architecture Decision Record Reference:** `docs/architecture_decision_record.md`  
+**Analysis Reference:** `docs/experiments/phase1_exp1_analysis.md`  
+**Forensic Audit Verdict:** `PASS` (Full parity verified across 26/26 points, 390 recorded solves)  
 
 ---
 
