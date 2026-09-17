@@ -23,7 +23,8 @@
 | **Phase 2 (Watchdog)** | Subprocess watchdog termination on Windows under stalled/runaway workloads | • `tests/test_watchdog_mechanism.py`<br>• `tests/test_robertson_validation.py`<br>• `experiments/logs/surrogate_validation_report.json` | `[DIRECT ARTIFACT]`<br>`[MEASURED RESULT]` | **PARTIALLY VERIFIED** | Watchdog code exists; operational timeout logged in surrogate report (`VALIDATION_TIMEOUT` at 5.031s). **No standalone test log saved.** |
 | **Phase 3 (Claim Audit)** | Retract unsupported claims, unverified ratios, and invalid citations | • `docs/phases/phase_3_evidence_audit.md`<br>• Diff in `docs/benchmark_system_spec.md` | `[DOCUMENTED DECISION]`<br>`[DIRECT ARTIFACT]` | **VERIFIED** | Retracted Chen et al. for LV, FHN 35× ratio, Robertson $\lambda \approx -10^7$, and unmeasured GELU speed claims. |
 | **Phase 4 (System Freeze)**| Freeze 4 benchmark systems, canonical baseline MLP, parameter math, CPU boundary | • `docs/benchmark_system_spec.md` (274 lines, 20,298 B) | `[DIRECT ARTIFACT]`<br>`[DOCUMENTED DECISION]` | **VERIFIED** | Baseline ($W=64, L=2$, GELU, $[z; t]$ input) frozen as proposed reference model. Parameter counts verified ($4,546$ and $4,675$). |
-| **Stage 1 (Controlled Exp)**| Stage 1 benchmark experiments (NFE vs. runtime characterization on CPU) | N/A (Not yet implemented) | `[DOCUMENTED DESIGN ONLY]` | **NOT YET EXECUTED** | Clean slate: zero Stage 1 code executed. NFE-runtime correlation on frozen baseline is **NOT YET MEASURED**. |
+| **Stage 1 Exp 1 (Baseline)** | Baseline NFE vs. runtime characterization multi-point ladder on CPU | • `experiments/stage1_exp1_runner.py`<br>• `experiments/logs/stage1_exp1_results.json`<br>• `experiments/logs/stage1_exp1_results.csv`<br>• `docs/experiments/phase1_exp1_analysis.md`<br>• `docs/experiments/exp1_evidence_manifest.md` | `[DIRECT ARTIFACT]`<br>`[MEASURED RESULT]` | **VERIFIED & AUDITED** | Executed Sept 16, 2026. 26 points, 390 recorded solves across LV and FHN. 100% SUCCESS. NFE-runtime linearity verified ($R^2 \ge 0.994$). $2.42\times$ solver disparity recorded. |
+| **Stage 1 (Exp 2A–6)** | Follow-up controlled benchmarks (Solver, Complexity, Tolerance, Stiffness) | • `docs/stage1_experiment_protocol.md` | `[DOCUMENTED DESIGN ONLY]` | **PLANNED / NOT YET EXECUTED** | Protocols designed and frozen. Zero execution on this branch; future work. |
 
 ---
 
@@ -81,6 +82,26 @@
 
 ---
 
+### Stage 1 Experiment 1: Baseline Characterization (`experiments/logs/stage1_exp1_results.json`)
+* **Execution Timestamp Traceability:** Executed 2026-09-16T08:05:49Z to 2026-09-16T08:07:12Z (UTC).
+* **Host Hardware & OS Verified:** Intel64 Family 6 Model 183 Stepping 1 (28 logical cores), Windows 10 (10.0.26200), Python 3.11.16, PyTorch 2.14.0+cpu, torchdiffeq 0.2.5. Threading pinned to 1.
+* **Measured Series:**
+  1. **Series 1A (Lotka-Volterra Adaptive `dopri5`, N=10 points, 150 solves):**
+     * Horizon scaled $T_k \in [1.5, 15.0]$, NFE dynamic range $[74, 698]$, runtime range $[9.74, 88.67]\text{ ms}$.
+     * OLS fit: $T_{\text{total}} = 0.127435 \cdot \text{NFE} + 2.0414\text{ ms}$, $\beta_1 = 127.44 \pm 3.49\ \mu\text{s/NFE}$, $R^2 = 0.994051$.
+     * Estimated solver overhead: $81.5\%$ of total runtime.
+  2. **Series 1B (FitzHugh-Nagumo Adaptive `dopri5`, N=10 points, 150 solves):**
+     * Horizon scaled $T_k \in [5.0, 50.0]$, NFE dynamic range $[86, 542]$, runtime range $[11.44, 73.96]\text{ ms}$.
+     * OLS fit: $T_{\text{total}} = 0.138736 \cdot \text{NFE} - 0.4761\text{ ms}$, $\beta_1 = 138.74 \pm 2.33\ \mu\text{s/NFE}$, $R^2 = 0.997757$.
+     * Estimated solver overhead: $82.0\%$ of total runtime.
+  3. **Series 1C (Lotka-Volterra Deterministic `rk4`, N=6 points, 90 solves):**
+     * Steps scaled $N_{\text{steps}} \in [25, 800]$, deterministic NFE range $[100, 3200]$, runtime range $[8.31, 172.21]\text{ ms}$.
+     * OLS fit: $T_{\text{total}} = 0.052629 \cdot \text{NFE} + 4.4575\text{ ms}$, $\beta_1 = 52.63 \pm 0.57\ \mu\text{s/NFE}$, $R^2 = 0.999534$.
+     * Estimated solver overhead: $61.3\%$ of total runtime.
+* **Forensic Auditing:** Forensic parity verified across 26/26 points, zero discrepancies between JSON and CSV, zero timeouts. SHA-256 hashes permanently locked.
+
+---
+
 ### Legacy Measurements Quarantined in `experiments/logs/archive/`
 * **Historical CSV Logs:**
   * `exp1_solver_sweep.csv` (16 configurations: solver latency across euler, rk4, dopri5).
@@ -111,4 +132,4 @@
 1. **Phase 0 Execution Log:** `phase0_audit.py` was executed to organize the workspace, but no stdout text file (`phase0_audit.log`) was captured. Status remains `PARTIALLY VERIFIED`.
 2. **Watchdog Unit Test Log:** `tests/test_watchdog_mechanism.py` has no standalone console log. Firing is verified solely through `surrogate_validation_report.json`. Status remains `PARTIALLY VERIFIED`.
 3. **Van der Pol & Robertson Analytical Spectra:** Trajectory Jacobian spectra have not yet been evaluated in `phase1_spectral_diagnostics.json`.
-4. **Host Hardware Metadata:** Specific CPU model string, microarchitecture, cache hierarchy, and linked BLAS backend will be formally queried and recorded when Stage 1 experiments begin.
+4. **Host Hardware Metadata:** Fully resolved for Stage 1 Experiment 1 in `stage1_exp1_results.json` (`Intel64 Family 6 Model 183 Stepping 1`, 28 logical cores, Windows 10, single-thread intra/inter-op, BLAS environment locks).
