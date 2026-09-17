@@ -269,7 +269,7 @@ To prevent premature conclusions or scientific misrepresentation, this specifica
 With the experimental foundation frozen, the project advances to:
 
 * **Stage 1: Controlled Experiment Protocol Design**
-  * Define exact explicit solvers (e.g., `dopri5`, `tsit5`) and implicit solvers (e.g., `radau`, `bdf`) to evaluate on the frozen baseline.
+  * Define exact explicit solvers (e.g., `dopri5`, `bosh3`, `dopri8`; note that `tsit5` is not available in the installed `torchdiffeq` 0.2.5 environment) and implicit solvers (e.g., `radau`, `bdf`) to evaluate on the frozen baseline.
   * Define tolerance sweep ranges ($\text{rtol}, \text{atol}$) and batch size protocols.
   * Construct the isolated high-resolution timing harness for CPU ($T_{\text{total}}$, $T_f$, $T_{\text{solver}}$).
 * **Execution Boundary:** No code implementation, training loops, or benchmark profiling will begin until the Stage 1 Protocol is formally designed, reviewed, and approved.

@@ -350,20 +350,58 @@ Following the completion of Experiment 1, follow-up experiments systematically i
 ```
 
 ### Experiment 2: Decoupled Solver Algorithm vs. Implementation Backend
-To prevent conflating mathematical solver algorithms with language runtime or data structure implementations:
 
-* **Experiment 2A: Pure Solver Algorithm Effect (Fixed Backend: `torchdiffeq`)**
-  * **Independent Variable:** Algorithm $\in \{\text{`dopri5'}, \text{`tsit5'}, \text{`rk4'}, \text{`midpoint'}, \text{`euler'}\}$.
-  * **Fixed Invariants:** Software backend (`torchdiffeq`), Canonical baseline model (`lv_h64.pt`), system (LV, $t \in [0, 15]$), tolerances ($10^{-5}, 10^{-7}$ for adaptive), thread count (1).
-  * **Target:** Isolates Butcher tableau size and step-adaptation logic strictly within identical PyTorch tensor execution pathways.
-* **Experiment 2B: Implementation & Backend Overhead (Cross-Framework Benchmark)**
-  * **Independent Variable:** Software backend $\in \{\text{`torchdiffeq'}, \text{`scipy'}\}$.
-  * **Algorithm Invariant:** Dormand-Prince 5(4) (`dopri5` in `torchdiffeq` vs. `RK45` in `scipy`).
-  * **Fixed Invariants:** Identical system (LV), tolerances ($10^{-5}, 10^{-7}$), initial condition, thread count (1).
-  * **Target:** Directly quantifies the framework/runtime overhead (Python tensor dispatch in PyTorch vs. NumPy/C array dispatch in SciPy).
-* **Experiment 2C: Stiff Implicit Solvers (Fixed Backend: `scipy`)**
-  * **Independent Variable:** Implicit algorithm $\in \{\text{`Radau'}, \text{`BDF'}\}$.
-  * **Target:** Quantifies the computational cost of implicit linear algebra (Newton iterations, Jacobian evaluations, LU factorizations) within the compiled SciPy backend.
+#### Experiment 2A: Pure Solver Algorithm Characterization (Fixed Backend: `torchdiffeq`)
+To isolate the computational effect of Runge-Kutta order, Butcher tableau stage count, and step-adaptation mechanics strictly within identical PyTorch tensor execution pathways, Experiment 2A evaluates 7 verified solvers divided into two structurally unconfounded sub-series.
+
+*(Methodological Note on NFE Comparability: NFE remains the exact integer count of vector-field evaluations, providing an unambiguous metric of neural model evaluations. However, the wall-clock computational cost associated with one NFE is not necessarily equivalent across solver algorithms because stage structure, adaptive step-control logic, Butcher tableau buffer management, and internal bookkeeping differ. For example, an evaluation inside a 13-stage tableau involves different intermediate allocations and step controller checks than an evaluation inside a 1-stage or 3-stage method. Consequently, adaptive and fixed-step measurements must not be pooled into a single regression or treated as interchangeable units of computational work).*
+
+* **Series 2A-1 (Adaptive Explicit Runge-Kutta Order Ladder):**
+  * **Solvers:** `adaptive_heun` (order 2, 2 stages), `bosh3` (order 3, 3 stages FSAL), `dopri5` (order 5, 6 stages + FSAL), `dopri8` (order 8, 13 stages).
+  * **Independent Variable:** ONLY the adaptive solver algorithm / Butcher order ($p \in \{2, 3, 5, 8\}$).
+  * **Controlled Invariants:**
+    * Software backend: `torchdiffeq` 0.2.5 strictly.
+    * Dynamical system: Lotka-Volterra ($D=2$, autonomous), initial condition $y_0 = [1.0, 0.5]^T$.
+    * Model checkpoint: `models/checkpoints/lv_h64.pt` (verified canonical baseline, 4,482 parameters, autonomous Softplus MLP, $W=64, L=2$, augment_dim=0).
+    * Model training: **Zero training required**; pre-trained Phase-2 weights are held strictly invariant.
+    * Integration horizon: $t \in [0, 15.0]$ ($T=15.0$).
+    * Output evaluation grid: $N_{\text{eval}} = 150$ uniformly spaced points in $[0, 15.0]$.
+    * Numerical tolerances: $\text{rtol} = 1.0 \times 10^{-5}, \text{atol} = 1.0 \times 10^{-7}$.
+    * Hardware execution: **CPU only** (`Intel64 Family 6 Model 183`).
+    * Thread pinning: `torch.set_num_threads(1)`, `torch.set_num_interop_threads(1)`.
+    * Determinism: Random seed fixed to 42 (`torch.manual_seed(42)`, `np.random.seed(42)`).
+    * Repetitions: 20 unrecorded warm-up solves + 15 recorded measured solves per solver.
+    * Safety watchdog: Process-isolated watchdog timer with hard right-censoring timeout at 30.0 seconds.
+  * **Emergent Measurements (NOT Controlled):** Number of function evaluations ($\text{NFE}$), actual wall-clock integration runtime ($T_{\text{total}}$), accepted/rejected step counts, and trajectory states $\hat{z}(t_i)$ are emergent physical outcomes governed by local truncation error adaptation.
+  * **Scientific Target:** Measures how higher-order Butcher tableaus (from 2 stages in `adaptive_heun` to 13 stages in `dopri8`) alter step-adaptation efficiency, emergent NFE, wall-clock runtime, and the derived solver overhead ratio $\widehat{\Omega}_{\text{solver}} = \widehat{T}_{\text{solver}} / T_{\text{total}}$ under identical error thresholds.
+
+* **Series 2A-2 (Deterministic Fixed-Step Stage Ladder):**
+  * **Solvers:** `euler` (order 1, 1 stage), `midpoint` (order 2, 2 stages), `rk4` (order 4, 4 stages).
+  * **Independent Variable:** ONLY the fixed-step solver algorithm / stage structure ($s \in \{1, 2, 4\}$).
+  * **Controlled Invariants:**
+    * Software backend: `torchdiffeq` 0.2.5 strictly.
+    * Dynamical system: Lotka-Volterra ($D=2$, autonomous), initial condition $y_0 = [1.0, 0.5]^T$.
+    * Model checkpoint: `models/checkpoints/lv_h64.pt` (canonical baseline, 4,482 parameters).
+    * Model training: **Zero training required**.
+    * Integration horizon: $t \in [0, 15.0]$ ($T=15.0$).
+    * Output evaluation grid: $N_{\text{eval}} = 150$ uniformly spaced points in $[0, 15.0]$.
+    * Fixed step count: Clamped to exactly $N_{\text{steps}} = 200$, yielding constant step size $h = 15.0 / 200 = 0.075$.
+    * Numerical tolerances: **N/A** (tolerances are functionally irrelevant and ignored by fixed-step methods).
+    * Hardware execution: **CPU only**, `torch.set_num_threads(1)`, `torch.set_num_interop_threads(1)`.
+    * Determinism: Random seed fixed to 42.
+    * Repetitions: 20 unrecorded warm-up solves + 15 recorded measured solves per solver.
+    * Safety watchdog: 30.0 seconds timeout.
+  * **Deterministic NFE Relationship:**
+    * `euler`: $1\text{ stage} \times 200 = 200\text{ NFE}$.
+    * `midpoint`: $2\text{ stages} \times 200 = 400\text{ NFE}$.
+    * `rk4`: $4\text{ stages} \times 200 = 800\text{ NFE}$.
+  * **Scientific Target:** Characterizes runtime and trajectory accuracy as a function of fixed-step solver stage structure under a common step count, evaluating both execution time and numerical error ($\text{MSE}$, $\text{Rel-}L_2$, $L_\infty$) across stage counts without adaptive step-control mechanics.
+
+*(Note on Solver Availability: `tsit5` is not available in the installed `torchdiffeq` 0.2.5 environment; it is replaced by the verified embedded pairs `bosh3` and `dopri8`).*
+
+#### Status of Experiment 2B and 2C:
+* **Experiment 2B (Cross-Framework Backend Benchmark — `torchdiffeq` vs. `scipy`):** **DEFERRED.** Direct evaluation of PyTorch models inside `scipy.integrate.solve_ivp` introduces an uncalibrated NumPy $\leftrightarrow$ PyTorch Tensor data conversion boundary ($T_{\text{bridge}}$) on every function call. Exp2-B remains deferred pending the design and empirical calibration of an isolated bridge latency protocol.
+* **Experiment 2C (Implicit Stiff Solvers):** **DEFERRED / CONSOLIDATED.** Evaluating implicit solvers (`Radau`, `BDF`) with finite-difference Jacobians on the non-stiff Lotka-Volterra system is scientifically unmotivated. Implicit solver characterization is consolidated into Experiment 5 (Van der Pol stiffness progression) and Experiment 6 (Robertson kinetics), where physical stiffness provides genuine scientific justification for implicit linear algebra.
 
 ### Experiment 3: Model Complexity Scaling (Single Axis Variation)
 Evaluates whether increasing neural network evaluation latency ($T_f$) alters the relative dominance of NFE vs. solver overhead:
@@ -518,7 +556,7 @@ Because this investigation is strictly CPU-based, the experimental protocol is o
 3. **Execution Time Budget:**
    * **Isolated $T_f$ Measurement (1,000 passes):** $\approx 0.05$–$0.15\text{ s}$ CPU time per architecture.
    * **Experiment 1 (LV + FHN Horizon Ladders + RK4 Step Ladder = 26 points $\times$ 15 runs):** $\approx 390$ solves $\approx 30$–$60\text{ seconds}$ total CPU time.
-   * **Experiment 2 (Solver Comparison, 8 solvers $\times$ 15 runs):** $\approx 1$–$2\text{ minutes}$ total CPU time.
+   * **Experiment 2A (Pure Solver Algorithm Comparison, 7 solvers $\times$ 15 runs = 105 measured solves):** Planning estimate $\approx 15$–$30\text{ seconds}$ total single-thread CPU time `[PROPOSED PLANNING ESTIMATE — NOT MEASURED; runtime is an empirical dependent variable to be measured]`.
    * **Experiment 3 (Width/Depth Sweeps, 10 configurations $\times$ 15 runs):** $\approx 2$–$4\text{ minutes}$ total CPU time.
    * **Experiment 4 (Tolerance Sweeps, 5 pairs $\times$ 15 runs):** $\approx 1$–$3\text{ minutes}$ total CPU time.
    * **Experiment 5 & 6 (Stiffness & Robertson with 30s timeout cap):** Max budget $\le 10\text{ minutes}$ total CPU time.
@@ -533,9 +571,9 @@ Every planned experiment is explicitly mapped to the mentor-approved Problem Sta
 | Planned Experiment | Specific Factor Isolated | Frozen Literature Gap Addressed | Relevant Literature Reference |
 |:---|:---|:---|:---|
 | **Experiment 1** (Baseline NFE vs. Runtime Multi-Point Ladder) | Empirical scalar proportionality across 26 controlled NFE levels in non-stiff systems (adaptive horizons + fixed steps). | Evaluates whether NFE linearly tracks wall-clock time under baseline conditions across a wide dynamic range. | Chen et al. (2018), Finlay et al. (2020) |
-| **Experiment 2A** (Solver Algorithm Effect) | Numerical solver algorithm housekeeping, Butcher tableau size, and step adaptation overhead within a fixed backend (`torchdiffeq`). | Directly measures $\widehat{T}_{\text{solver}}$ differences between explicit solvers (`dopri5` vs. `tsit5` vs. `rk4`) at identical model weights. | Lienen & Günnemann (2022) |
-| **Experiment 2B** (Backend / Implementation Effect) | Software implementation and memory layout overhead (`torchdiffeq` Tensor dispatch vs. `scipy` NumPy/C dispatch). | Decouples implementation-level overheads from numerical algorithm differences under identical mathematical solver formulations (`dopri5` vs. `RK45`). | Lienen & Günnemann (2022) |
-| **Experiment 2C** (Implicit Stiff Solvers) | Computational cost of implicit linear algebra (Newton steps, Jacobians, LU factorizations) in SciPy. | Measures implicit solver overhead under stiff conditions. | Kim et al. (2021) |
+| **Experiment 2A** (Solver Algorithm Effect) | Numerical solver algorithm housekeeping, Butcher tableau stage count, and step adaptation overhead within a fixed backend (`torchdiffeq`). | Directly measures emergent NFE, wall-clock runtime, and derived solver overhead $\widehat{T}_{\text{solver}}$ across explicit Runge-Kutta orders ($p \in \{2, 3, 5, 8\}$ adaptive; $p \in \{1, 2, 4\}$ fixed-step) on canonical baseline checkpoint `lv_h64.pt`. | Lienen & Günnemann (2022), Dormand & Prince (1980), Bogacki & Shampine (1989) |
+| **Experiment 2B** (Backend / Implementation Effect — DEFERRED) | Software implementation and memory layout overhead (`torchdiffeq` Tensor dispatch vs. `scipy` NumPy/C dispatch). | Decouples implementation-level overheads from numerical algorithm differences under identical mathematical solver formulations (`dopri5` vs. `RK45`). Deferred pending bridge latency protocol. | Lienen & Günnemann (2022) |
+| **Experiment 2C** (Implicit Stiff Solvers — CONSOLIDATED) | Computational cost of implicit linear algebra (Newton steps, Jacobians, LU factorizations) in SciPy. | Consolidated into Experiment 5 and 6, where physical stiffness provides genuine scientific justification. | Kim et al. (2021) |
 | **Experiment 3A** (Model Width Scaling) | Neural vector-field complexity ($T_f$) across parameter counts ($W \in [16, 256]$). | Quantifies the shift from solver-dominated runtime ($\widehat{\Omega}_{\text{solver}} \gg 0$) to network-dominated runtime ($\widehat{T}_{\text{isolated\_net}} \gg \widehat{T}_{\text{solver}}$) as $T_f$ scales. | Finlay et al. (2020), Dupont et al. (2019) |
 | **Experiment 3B** (Model Depth Scaling) | Sequential layer latency across depth ($L \in [1, 5]$). | Measures sequential layer evaluation latency impact on $T_f$ and overall runtime proportionality. | Finlay et al. (2020) |
 | **Experiment 4** (Tolerance Scaling) | Numerical tolerances ($\text{rtol} \in [10^{-2}, 10^{-9}]$, $\text{atol} \in [10^{-4}, 10^{-11}]$). | Evaluates whether step-adaptation overhead fraction increases as tolerances tighten, and tests theoretical step scaling. | Chen et al. (2018), Lienen & Günnemann (2022) |
